@@ -1,0 +1,146 @@
+[
+	{
+		"category" : "Keyword",
+		"rule"     : "abc"
+	},
+	{
+		"category" : "Person",
+		"rule"     : "@nytimes"
+	},
+	{
+		"category" : "Hashtag",
+		"rule"     : "#newyork"
+	},
+	{
+		"category" : "Country",
+		"rule"     : "Iran"
+	},
+	{
+		"category" : "Keyword",
+		"rule"     : "abc"
+	},
+	{
+		"category" : "Person",
+		"rule"     : "@nytimes"
+	},
+	{
+		"category" : "Hashtag",
+		"rule"     : "#newyork"
+	},
+	{
+		"category" : "Country",
+		"rule"     : "Iran"
+	},
+	{
+		"category" : "Keyword",
+		"rule"     : "abc"
+	},
+	{
+		"category" : "Person",
+		"rule"     : "@nytimes"
+	},
+	{
+		"category" : "Hashtag",
+		"rule"     : "#newyork"
+	},
+	{
+		"category" : "Country",
+		"rule"     : "Iran"
+	},
+	{
+		"category" : "Keyword",
+		"rule"     : "abc"
+	},
+	{
+		"category" : "Person",
+		"rule"     : "@nytimes"
+	},
+	{
+		"category" : "Hashtag",
+		"rule"     : "#newyork"
+	},
+	{
+		"category" : "Country",
+		"rule"     : "Iran"
+	},
+	{
+		"category" : "Keyword",
+		"rule"     : "abc"
+	},
+	{
+		"category" : "Person",
+		"rule"     : "@nytimes"
+	},
+	{
+		"category" : "Hashtag",
+		"rule"     : "#newyork"
+	},
+	{
+		"category" : "Country",
+		"rule"     : "Iran"
+	},
+	{
+		"category" : "Keyword",
+		"rule"     : "abc"
+	},
+	{
+		"category" : "Person",
+		"rule"     : "@nytimes"
+	},
+	{
+		"category" : "Hashtag",
+		"rule"     : "#newyork"
+	},
+	{
+		"category" : "Country",
+		"rule"     : "Iran"
+	},
+	{
+		"category" : "Keyword",
+		"rule"     : "abc"
+	},
+	{
+		"category" : "Person",
+		"rule"     : "@nytimes"
+	},
+	{
+		"category" : "Hashtag",
+		"rule"     : "#newyork"
+	},
+	{
+		"category" : "Country",
+		"rule"     : "Iran"
+	},
+	{
+		"category" : "Keyword",
+		"rule"     : "abc"
+	},
+	{
+		"category" : "Person",
+		"rule"     : "@nytimes"
+	},
+	{
+		"category" : "Hashtag",
+		"rule"     : "#newyork"
+	},
+	{
+		"category" : "Country",
+		"rule"     : "Iran"
+	},
+	{
+		"category" : "Keyword",
+		"rule"     : "abc"
+	},
+	{
+		"category" : "Person",
+		"rule"     : "@nytimes"
+	},
+	{
+		"category" : "Hashtag",
+		"rule"     : "#newyork"
+	},
+	{
+		"category" : "Country",
+		"rule"     : "Iran"
+	}
+]
