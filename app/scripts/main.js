@@ -1,13 +1,14 @@
-var gmr = angular.module('gmr',['ui.router']);
+/* define module ***********************/
+var gmr = angular.module('GnipManagementRule',['ui.router', 'ui.bootstrap']);
 
 gmr
 
-//global static object
+/*global static object***********************/
 .run(['$rootScope', function($rootScope){
 	
 }])
 
-//route
+/* route ***********************/
 .config(function($stateProvider, $urlRouterProvider){
 	$urlRouterProvider.otherwise('/list');
 	$stateProvider
@@ -16,8 +17,8 @@ gmr
 			templateUrl : './components/list/list.html',
 			controller  : 'listController'
 		})
-		.state('person',{
-			url         : '/person',
+		.state('rule',{
+			url         : '/list/{id}',
 			templateUrl : '/components/person/person.html',
 			controller  : 'personController'
 		})
@@ -28,17 +29,54 @@ gmr
 		})
 })
 
-//controller
-.controller('listController', ['$scope', function($scope){
-	console.log('hello Guo Tao. This is list~')
+/* controller ***********************/
+//list
+.controller('listController', ['$scope', 'List', function($scope, List){
+	$scope.model={
+		
+	}
+	$scope.getList = function(){
+		List.getList()
+			.success(function (data){
+				$scope.list = data;
+				$scope.originalList = data;
+				$scope.page = {size: 10, index: 1}; 
+			})
+	}
+	$scope.getList();
+	$scope.change = function (){
+		
+		console.log($scope.list)
+	}
 }])
+//filter of list
+.filter('paging', function() {
+  return function (items, index, pageSize) {
+    if (!items){
+    	return [];
+    }
+    var offset = (index - 1) * pageSize;
+    return items.slice(offset, offset + pageSize);
+  }
+})
+.filter('size', function() {
+  return function (items) {
+    if (!items){
+    	return 0;
+    }
+    return items.length || 0
+  }
+})
+
+//person
 .controller('personController', ['$scope', function($scope){
 	console.log('hello Guo Tao, this is person~')
 }])
 
-//service
+/* service ***********************/
+
 //global service
-.factory('GlobalService', [function(){
+.factory('GlobalService', function(){
 	var GlobalService = {};
 
 	GlobalService.showError = function(){
@@ -46,21 +84,22 @@ gmr
 	}
 
 	return GlobalService;
-}]) 
+}) 
 //list
 .factory('List', ['$http', 'GlobalService', function($http, GlobalService){
 	var List = {};
 
 	//get list
-	list.getList = function(){
+	List.getList = function(){
 		return $http({
 			method : 'GET',
 			url    : './fakeJSON/fake-list.json'
 		})
+		.error(function(errorMsg){
+			GlobalService.showError();
+		})
 	}
-	.error(function(errorMsg){
-		GlobalService.showError();
-	})
+	
 
 	return List;
 }])

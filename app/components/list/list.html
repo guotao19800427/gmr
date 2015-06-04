@@ -17,10 +17,14 @@
 		</div>
       </div>
       <div class="col-sm-6">
-      	<div class="input-group">
-		  <input type="text" class="form-control" placeholder="Type something to search" aria-describedby="basic-addon2">
-		  <span class="input-group-addon" id="basic-addon2">Search</span>
-		</div>
+
+      	<form class="input-group">
+      		<span class="input-group-addon">
+		       Search
+		    </span>
+	      <input type="text" class="form-control" placeholder="Search for..." ng-model="query">
+	      
+	    </form>
       </div>
       <div class="col-sm-2 col-sm-offset-1">
       	<button type="button" class="btn btn-default">New</button>
@@ -29,7 +33,6 @@
 
 <!--table-->
 <table class="table table-striped">
-  <!-- <caption>Optional table caption.</caption> -->
   <thead>
     <tr>
       <th>Category</th>
@@ -38,21 +41,14 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      
-      
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
+  	<tr ng-repeat="item in list | filter:query | paging:page.index:page.size ">
+  		<td ng-bind="item.category"></td>
+  		<td ng-bind="item.rule"></td>
+  	</tr>
   </tbody>
 </table>
+
+<!--pager -->
+<pagination total-items="list|filter:query|size" ng-model="page.index" max-size="5"
+                items-per-page="page.size"
+                class="pagination-sm pull-right" boundary-links="true"></pagination>
