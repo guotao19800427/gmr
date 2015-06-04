@@ -1,35 +1,28 @@
-<!-- table header -->
+<!-- toolbar -->
 
-     <div class="row show-grid">
-      <div class="col-sm-3">
-      	<div class="dropdown">
-		  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
-		    category-All
-		    <span class="caret"></span>
-		  </button>
-		  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">All</a></li>
-		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Keywords</a></li>
-		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Person</a></li>
-		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Hashtag</a></li>
-		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Country</a></li>
-		  </ul>
-		</div>
-      </div>
-      <div class="col-sm-6">
-
-      	<form class="input-group">
-      		<span class="input-group-addon">
-		       Search
-		    </span>
-	      <input type="text" class="form-control" placeholder="Search for..." ng-model="query">
-	      
-	    </form>
-      </div>
-      <div class="col-sm-2 col-sm-offset-1">
-      	<button type="button" class="btn btn-default">New</button>
-      </div>
-    </div>
+ <div class="row show-grid">
+  <div class="col-sm-3">
+  	<select class="form-control" ng-model = "query.category">
+      <option value="">Category-All</option>
+      <option value="Keyword">Keyword</option>
+      <option value="Person">Person</option>
+      <option value="Hashtag">Hashtag</option>
+      <option value="Country">Country</option>
+    </select>
+    
+  </div>
+  <div class="col-sm-6">
+  	<form class="input-group">
+  		<span class="input-group-addon">
+         Search
+      </span>
+      <input type="text" class="form-control" placeholder="Search for..." ng-model="query.rule">  
+    </form>
+  </div>
+  <div class="col-sm-2 col-sm-offset-1">
+  	<button type="button" class="btn btn-default" ui-sref="add">New</button>
+  </div>
+</div>
 
 <!--table-->
 <table class="table table-striped">
@@ -49,6 +42,10 @@
 </table>
 
 <!--pager -->
-<pagination total-items="list|filter:query|size" ng-model="page.index" max-size="5"
-                items-per-page="page.size"
-                class="pagination-sm pull-right" boundary-links="true"></pagination>
+<pagination total-items="list|filter:query|size" 
+            ng-model="page.index" 
+            max-size="20"
+            items-per-page="page.size"
+            boundary-links="true"
+            class="pagination-sm pull-right">
+</pagination>

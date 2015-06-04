@@ -40,14 +40,11 @@ gmr
 			.success(function (data){
 				$scope.list = data;
 				$scope.originalList = data;
-				$scope.page = {size: 10, index: 1}; 
+				$scope.page = {size: 3, index: 1}; 
 			})
 	}
 	$scope.getList();
-	$scope.change = function (){
-		
-		console.log($scope.list)
-	}
+	
 }])
 //filter of list
 .filter('paging', function() {
@@ -68,9 +65,52 @@ gmr
   }
 })
 
-//person
-.controller('personController', ['$scope', function($scope){
-	console.log('hello Guo Tao, this is person~')
+//Rule
+.controller('personController', ['$scope', '$modal', 'Rule', '$state', function($scope, $modal, Rule, $state){
+	$scope.errorMessage = '';
+	$scope.animationsEnabled = true;
+	$scope.open = function () {
+
+	    var modalInstance = $modal.open({
+	      animation: $scope.animationsEnabled,
+	      templateUrl: 'alertModalBox.html',
+	      controller: 'ModalInstanceCtrl',
+	      // // size: size,
+	      resolve: {
+	        errorMessage: function () {
+	          return $scope.errorMessage;
+	        }
+	      }
+	    });
+	}
+
+	$scope.add = function(){
+		if(!$scope.category){
+			$scope.errorMessage = "Please choose category.";
+			$scope.open();
+			return;
+		}
+		if(!$scope.rule){
+			$scope.errorMessage = "Please input rule.";
+			$scope.open();
+			return;
+		}
+		Rule.add()
+			.success(function (data){
+				if(data.result === 1){
+					$state.go('list')
+				}
+			})
+	}
+
+}])
+
+//modal instance
+.controller('ModalInstanceCtrl',['$scope', '$modalInstance', 'errorMessage', function ($scope, $modalInstance, errorMessage){
+	$scope.errorMessage = errorMessage;
+	$scope.ok = function(){
+		$modalInstance.close();
+	}
 }])
 
 /* service ***********************/
@@ -102,4 +142,20 @@ gmr
 	
 
 	return List;
+}])
+.factory('Rule', ['$http', 'GlobalService', function($http, GlobalService){
+	var Rule={};
+
+	//add Rule
+	Rule.add = function (){
+		return $http({
+			method : 'GET',
+			url    : './fakeJSON/fake-success.json'
+		})
+		.error(function(errorMsg){
+			GlobalService.showError();
+		})
+	}
+
+	return Rule;
 }])
