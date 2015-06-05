@@ -309,6 +309,16 @@ module.exports = function (grunt) {
         cwd: '<%= config.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      components: {
+        cwd  : '<%= config.app %>/components',
+        dest : '<%= config.dist %>/components',
+        src  : ['**/*']
+      },
+      fakeJSON : {
+        cwd  : '<%= config.app %>/fakeJSON',
+        dest : '<%= config.dist %>/fakeJSON',
+        src  : ['**']
       }
     },
 

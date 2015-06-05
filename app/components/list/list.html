@@ -30,13 +30,12 @@
     <tr>
       <th>Category</th>
       <th>Rule</th>
-      
     </tr>
   </thead>
   <tbody>
   	<tr ng-repeat="item in list | filter:query | paging:page.index:page.size ">
   		<td ng-bind="item.category"></td>
-  		<td ng-bind="item.rule"></td>
+  		<td><a ng-bind="item.rule" ui-sref="rule" ng-click="change(item.id, item.category, item.rule)"></a></td>
   	</tr>
   </tbody>
 </table>
