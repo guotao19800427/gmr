@@ -1,6 +1,6 @@
 <!-- toolbar -->
 
- <div class="row show-grid">
+ <div class="row show-grid filter">
   <div class="col-sm-3">
   	<select class="form-control" ng-model = "query.category">
       <option value="">Category-All</option>
@@ -24,6 +24,11 @@
   </div>
 </div>
 
+<!-- alert -->
+<alert ng-repeat = "alert in alertMsg" type="{{alert.type}}" close = "closeAlert($index);">
+  {{alert.msg}}
+</alert>
+
 <!--table-->
 <table class="table table-striped">
   <thead>
@@ -35,8 +40,11 @@
   <tbody>
   	<tr ng-repeat="item in list | filter:query | paging:page.index:page.size ">
   		<td ng-bind="item.category"></td>
-  		<td><a ng-bind="item.rule" ui-sref="rule" ng-click="change(item.id, item.category, item.rule)"></a></td>
+  		<td><a ng-bind="item.rule[0]" ui-sref="rule" ng-click="change(item.id, item.category, item.rule)"></a></td>
   	</tr>
+    <tr ng-if="!list.length">
+      <td colspan="2">There is no item yet.</td>
+    </tr>
   </tbody>
 </table>
 

@@ -9,10 +9,16 @@ gmr
 .run(['$rootScope', 'localStorageService', function($rootScope, localStorageService){
 	$rootScope.$on('currentItemChange', function(event, currentItem){
 		if(localStorageService.isSupported) {
+			//localStorageService.clearAll();
+			
 			localStorageService.set('currentItem', currentItem);
-		    
+		   
 		}
 	});
+	$rootScope.alertMsg = [];
+	$rootScope.closeAlert = function(index) {
+	    $rootScope.alertMsg.splice(index, 1);
+	};
 }])
 /* END global ***********************/
 
@@ -51,6 +57,14 @@ gmr
 
 
 
+/* constant ***********************/
+
+// Base Url
+.constant('BaseUrl', '/api/gmr/')
+
+/* END constant ***********************/
+
+
 /* controller ***********************/
 
 //list
@@ -60,19 +74,22 @@ gmr
 	$scope.getList = function(){
 		List.getList()
 			.success(function (data){
+				
 				$scope.list = data;
 				$scope.originalList = data;
-				$scope.page = {size: 10, index: 1}; 
+				$scope.page = {size: 5, index: 1}; 
 			});
 	};
 	$scope.getList();
 
 	$scope.change = function(itemId, itemCategory, ItemRule){
+		
 		var currentItem = {
 			id       : itemId,
 			category : itemCategory,
 			rule     : ItemRule
 		};
+
 		$scope.$emit('currentItemChange', currentItem);
 	};	
 }])
@@ -97,7 +114,9 @@ gmr
 })
 
 //Rule
-.controller('RuleController', ['$scope', '$modal', 'Rule', '$state', 'localStorageService', function($scope, $modal, Rule, $state, localStorageService){
+.controller('RuleController', ['$scope', '$modal', 'Rule', '$state', 'localStorageService', '$rootScope', function($scope, $modal, Rule, $state, localStorageService, $rootScope){
+	$scope.currentItem = localStorageService.get('currentItem');
+
 	$scope.errorMessage = '';
 	$scope.animationsEnabled = true;
 	$scope.open = function () {
@@ -125,16 +144,73 @@ gmr
 			$scope.open();
 			return;
 		}
-		Rule.add()
+		Rule.add({
+			rule : [{
+				"category" : $scope.category,
+				"rule"     : [$scope.rule]
+			}]
+		})
 			.success(function (data){
-				if(data.result === 1){
+				if(data){
 					$state.go('list');
+					$rootScope.alertMsg=[{
+						"type" : "success",
+						"msg"  : "You successfully added " + $scope.rule
+
+					}];
 				}
 			});
 	};
 
-	$scope.currentItem = localStorageService.get('currentItem');
-	console.log($scope.currentItem);
+	$scope.update = function(){
+		
+		var rule = {
+				"category" : $scope.currentItem.category,
+				"rule"     : $scope.currentItem.rule
+			};
+		
+
+		if(!$scope.currentItem.rule){
+			$scope.errorMessage = 'Please input rule.';
+			$scope.open();
+			return;
+		}
+
+		Rule.update({
+			"rule"     : rule,
+			"id"       : $scope.currentItem.id
+		})
+			.success(function(data){
+				$state.go('list');
+				$rootScope.alertMsg=[{
+					"type" : "success",
+					"msg"  : "You successfully updated " + $scope.currentItem.rule
+
+				}];
+			})
+	}
+
+	$scope.delete = function(){
+		Rule.delete({
+			"id"  : $scope.currentItem.id
+		})
+			.success(function (data){
+
+				if(data.code === 200){
+					$state.go('list');
+					$rootScope.alertMsg=[{
+						"type" : "danger",
+						"msg"  : "You successfully deleted " + $scope.currentItem.rule
+
+					}]
+				}
+			})
+	}
+
+	$scope.cancel = function (){
+		$state.go('list');
+	}
+	
 		
 }])
 
@@ -164,14 +240,14 @@ gmr
 }) 
 
 //list
-.factory('List', ['$http', 'GlobalService', function($http, GlobalService){
+.factory('List', ['$http', 'GlobalService', 'BaseUrl', function($http, GlobalService, BaseUrl){
 	var List = {};
 
 	//get list
 	List.getList = function(){
 		return $http({
 			method : 'GET',
-			url    : '/api/v1/rules/power%20track'
+			url    : BaseUrl + 'power track.json'
 		})
 		.error(function(){
 			GlobalService.showError();
@@ -183,17 +259,43 @@ gmr
 }])
 
 //Rule
-.factory('Rule', ['$http', 'GlobalService', function($http, GlobalService){
+.factory('Rule', ['$http', 'GlobalService', 'BaseUrl',  function($http, GlobalService, BaseUrl){
 	var Rule={};
-	Rule.add = function (){
+
+	//add rule
+	Rule.add = function (options){
 		return $http({
-			method : 'GET',
-			url    : './fakeJSON/fake-success.json'
+			method : 'POST',
+			url    : BaseUrl + 'power track.json',
+			data   : options.rule
 		})
 		.error(function(){
 			GlobalService.showError();
 		});
 	};
+
+	//update rule
+	Rule.update = function(options){
+		return $http({
+			method : 'PUT',
+			url    : BaseUrl + options.id,
+			data   : options.rule
+		})
+		.error(function(){
+			GlobalService.showError();
+		});
+	}
+
+	//delete rule
+	Rule.delete = function(options){
+		return $http({
+			method  : 'DELETE',
+			url     : BaseUrl + options.id
+		})
+		.error(function(){
+			GlobalService.showError();
+		});
+	}
 
 	return Rule;
 }]);

@@ -8,4 +8,14 @@
 .logo{
   background: red;
   height:50px;
+  float: left;
+  margin-right:1em;
+}
+.title{
+	color: #fff;
+	line-height: 50px;
+	margin: 0;
+}
+.filter{
+	margin-bottom: 15px;
 }
