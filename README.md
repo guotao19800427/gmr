@@ -1,2 +1,3 @@
 # gmr
-npm install && bower install
+1) npm install && bower install
+2) grunt serve
